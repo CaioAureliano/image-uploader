@@ -1,0 +1,11 @@
+{
+  "name": "image-uploader",
+  "version": "1.0.0",
+  "description": "a image uploader app with google api",
+  "main": "index.js",
+  "repository": "git@github.com:CaioAureliano/image-uploader.git",
+  "author": "Caio Aureliano",
+  "license": "MIT",
+  "private": true,
+  "workspaces": ["packages/*"]
+}
