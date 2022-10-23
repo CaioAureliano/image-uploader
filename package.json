@@ -7,5 +7,7 @@
   "author": "Caio Aureliano",
   "license": "MIT",
   "private": true,
-  "workspaces": ["packages/*"]
+  "workspaces": [
+    "packages/*"
+  ]
 }
