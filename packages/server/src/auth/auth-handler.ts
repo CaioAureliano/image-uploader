@@ -11,5 +11,11 @@ export default function AuthHandler(client: OAuth2Client) {
         res.send({ authorizeUrl });
     };
 
-    return { getAuthorizeUrl };
+    const authenticateOAuth2Client = async (req: Request, res: Response): Promise<void> => {
+        const { code } = req.query;
+        await authService.authenticate(code as string);
+        res.send({ message: "Authentication successful" });
+    };
+
+    return { getAuthorizeUrl, authenticateOAuth2Client };
 }

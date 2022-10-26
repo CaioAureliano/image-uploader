@@ -7,6 +7,7 @@ export default function AuthRouter(client: OAuth2Client) {
     const router = Router();    
 
     router.get("/authorize", AuthHandler(client).getAuthorizeUrl);
+    router.get("/authenticate", AuthHandler(client).authenticateOAuth2Client);
 
     return router;
 }
