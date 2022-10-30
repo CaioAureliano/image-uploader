@@ -1,8 +1,7 @@
-import { OAuth2Client } from "google-auth-library";
-import { drive_v3, google } from "googleapis";
-import { v4 as uuid } from "uuid";
-import fs from "node:fs";
 import { GaxiosResponse } from "gaxios";
+import { OAuth2Client } from "google-auth-library";
+import { drive_v3 } from "googleapis";
+import DriveService from "./drive-service";
 
 export interface UploadedImage {
     name: string;
@@ -13,25 +12,13 @@ export interface UploadedImage {
 export default function UploadService(client: OAuth2Client) {
 
     const uploadFileToDrive = async (image: UploadedImage): Promise<void> => {
-        const driveService = google.drive({ version: "v3", auth: client });
-        const fileMetadata = {
-            name: new Date().getMilliseconds().toString(),
-            parents: ["appDataFolder"],
-            appProperties: {
-                "_id": uuid(),
-                "originalName": image.name,
-            },
-        };
 
-        const media = {
-            mimeType: image.mimetype,
-            body: fs.createReadStream(image.tempFilePath),
-        };
+        const driveService: drive_v3.Drive = DriveService().build(client);
     
         try {
             const driveResponse: GaxiosResponse<drive_v3.Schema$File> = await driveService.files.create({
-                requestBody: fileMetadata,
-                media: media,
+                requestBody: DriveService().buildFileMetadata(image),
+                media: DriveService().buildMedia(image),
                 fields: "id,name,appProperties",
             });
 
