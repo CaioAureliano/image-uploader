@@ -28,7 +28,7 @@ export default function UploadHandler(client: OAuth2Client) {
         }
         
         const imgToSave: UploadedFile = imgUploaded as UploadedFile;
-        await UploadService(client).uploadFileToDrive(imgToSave);
+        await UploadService(client).uploadImageToDrive(imgToSave);
 
         res.status(201).end();
     };

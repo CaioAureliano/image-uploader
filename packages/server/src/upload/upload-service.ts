@@ -11,14 +11,16 @@ export interface UploadedImage {
 
 export default function UploadService(client: OAuth2Client) {
 
-    const uploadFileToDrive = async (image: UploadedImage): Promise<void> => {
+    const uploadImageToDrive = async (image: UploadedImage): Promise<void> => {
+        
+        const driveService = DriveService();
 
-        const driveService: drive_v3.Drive = DriveService().build(client);
+        const drive: drive_v3.Drive = driveService.build(client);
     
         try {
-            const driveResponse: GaxiosResponse<drive_v3.Schema$File> = await driveService.files.create({
-                requestBody: DriveService().buildFileMetadata(image),
-                media: DriveService().buildMedia(image),
+            const driveResponse: GaxiosResponse<drive_v3.Schema$File> = await drive.files.create({
+                requestBody: driveService.buildFileMetadata(image),
+                media: driveService.buildMedia(image),
                 fields: "id,name,appProperties",
             });
 
@@ -32,5 +34,5 @@ export default function UploadService(client: OAuth2Client) {
         }
     };
 
-    return { uploadFileToDrive };
+    return { uploadImageToDrive };
 }
