@@ -1,8 +1,7 @@
-import { UploadedImage } from "./upload-service";
-import { v4 as uuid} from "uuid";
-import fs, { ReadStream } from "node:fs";
 import { OAuth2Client } from "google-auth-library";
 import { drive_v3, google } from "googleapis";
+import fs, { ReadStream } from "node:fs";
+import { UploadedImage } from "./upload-service";
 
 export interface FileMetadata {
     name: string;
@@ -22,7 +21,6 @@ export default function DriveService() {
             name: new Date().getMilliseconds().toString(),
             parents: ["appDataFolder"],
             appProperties: {
-                "_id": uuid(),
                 "originalName": image.name,
             },
         };

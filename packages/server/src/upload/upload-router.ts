@@ -6,8 +6,8 @@ export default function UploadRouter(client: OAuth2Client) {
 
     const router = Router();
 
-    router.post("/upload", UploadHandler(client).uploadImage);
-    router.get("/image", UploadHandler(client).getImage);
+    router.post("/image", UploadHandler(client).uploadImage);
+    router.get("/image/:id", UploadHandler(client).getImage);
 
     return router;
 }
