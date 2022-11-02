@@ -33,5 +33,18 @@ export default function UploadHandler(client: OAuth2Client) {
         res.status(201).end();
     };
 
-    return { uploadImage };
+    const getImage = async (req: Request, res: Response): Promise<void> => {
+
+        if (!req.params || !req.params.id) {
+            throw new Error("bad request: not found file id");
+        }
+
+        const fileId: string = req.params.id!;
+
+        await UploadService(client).getUploadedImageFromDrive(fileId);
+
+        res.send({ message: "found file" });
+    };
+
+    return { uploadImage, getImage };
 }

@@ -34,5 +34,22 @@ export default function UploadService(client: OAuth2Client) {
         }
     };
 
-    return { uploadImageToDrive };
+    const getUploadedImageFromDrive = async (id: string): Promise<void> => {
+        
+        const drive: drive_v3.Drive = DriveService().build(client);
+        
+        try {
+            const file = await drive.files.get({
+                fileId: id,
+                fields: "id,name,contentHints,imageMediaMetadata,thumbnailLink,exportLinks,linkShareMetadata,webContentLink,webViewLink",
+            });
+    
+            console.log(file);
+        } catch (error) {
+            console.error(error);
+            throw new Error("not found file");
+        }
+    };
+
+    return { uploadImageToDrive, getUploadedImageFromDrive };
 }
