@@ -9,9 +9,16 @@ export interface UploadedImage {
     tempFilePath: string;
 }
 
+export interface ImageResponse {
+    id?: string | undefined | null;
+    name?: string | undefined | null;
+    appProperties?: { [k: string]: string } | null;
+    thumbnailLink?: string | null;
+}
+
 export default function UploadService(client: OAuth2Client) {
 
-    const uploadImageToDrive = async (image: UploadedImage): Promise<void> => {
+    const uploadImageToDrive = async (image: UploadedImage): Promise<ImageResponse> => {
         
         const driveService = DriveService();
 
@@ -21,35 +28,36 @@ export default function UploadService(client: OAuth2Client) {
             const driveResponse: GaxiosResponse<drive_v3.Schema$File> = await drive.files.create({
                 requestBody: driveService.buildFileMetadata(image),
                 media: driveService.buildMedia(image),
-                fields: "id,name,appProperties",
+                fields: "id",
             });
 
-            if (driveResponse.status !== 200) {
+            if (!driveResponse.status || driveResponse.status !== 200) {
+                console.log(driveResponse);
                 throw new Error("error to create file");
             }
 
+            const id: string = driveResponse.data.id!;
+            const imageUploaded = await getUploadedImageFromDriveById(drive, id);
+            
+            return imageUploaded.data;
+
         } catch (error) {
             console.error(error);
-            throw error;
+            throw new Error("error to upload file");
         }
     };
 
-    const getUploadedImageFromDrive = async (id: string): Promise<void> => {
-        
-        const drive: drive_v3.Drive = DriveService().build(client);
-        
+    const getUploadedImageFromDriveById = async (drive: drive_v3.Drive, id: string): Promise<GaxiosResponse<drive_v3.Schema$File>> => {
         try {
-            const file = await drive.files.get({
+            return await drive.files.get({
                 fileId: id,
-                fields: "id,name,contentHints,imageMediaMetadata,thumbnailLink,exportLinks,linkShareMetadata,webContentLink,webViewLink",
+                fields: "id,name,appProperties,thumbnailLink,imageMediaMetadata",
             });
-    
-            console.log(file);
         } catch (error) {
             console.error(error);
             throw new Error("not found file");
         }
     };
 
-    return { uploadImageToDrive, getUploadedImageFromDrive };
+    return { uploadImageToDrive, getUploadedImageFromDriveById };
 }

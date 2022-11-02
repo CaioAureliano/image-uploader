@@ -41,9 +41,7 @@ export default function UploadHandler(client: OAuth2Client) {
 
         const fileId: string = req.params.id!;
 
-        await UploadService(client).getUploadedImageFromDrive(fileId);
-
-        res.send({ message: "found file" });
+        res.send({ message: fileId });
     };
 
     return { uploadImage, getImage };
