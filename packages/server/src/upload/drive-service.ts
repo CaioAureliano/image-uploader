@@ -1,3 +1,4 @@
+import { GaxiosResponse } from "gaxios";
 import { OAuth2Client } from "google-auth-library";
 import { drive_v3, google } from "googleapis";
 import fs, { ReadStream } from "node:fs";
@@ -14,7 +15,52 @@ export interface FileMediaDrive {
     body: ReadStream
 }
 
+export interface imageUploaded {
+    id?: string | undefined | null;
+    name?: string | undefined | null;
+    appProperties?: { [k: string]: string } | null;
+    thumbnailLink?: string | null;    
+}
+
+export interface ImageResponse {
+    id?: string | undefined | null;
+}
+
 export default function DriveService() {
+    
+    const sendImageToDrive = async (drive: drive_v3.Drive, image: UploadedImage): Promise<ImageResponse> => {
+        const driveResponse: GaxiosResponse<drive_v3.Schema$File> = await drive.files.create({
+            requestBody: buildFileMetadata(image),
+            media: buildMedia(image),
+            fields: "id",
+        });
+
+        if (!driveResponse.status || driveResponse.status !== 200) {
+            console.log(driveResponse);
+            throw new Error("error to create file");
+        }
+
+        return driveResponse.data;
+    };
+
+    const getUploadedImageFromDriveById = async (drive: drive_v3.Drive, fileId: string): Promise<imageUploaded> => {
+        try {
+            const imageUploaded: GaxiosResponse<drive_v3.Schema$File> = await drive.files.get({
+                fileId,
+                fields: "id,name,appProperties,thumbnailLink,imageMediaMetadata",
+            });
+
+            return imageUploaded.data;
+        } catch (error) {
+            console.error(error);
+            throw new Error("not found file");
+        }
+    };
+
+    const getDriveImageLinkFromThumbnailLink = (thumbnailLink: string): string => {
+        const thumbnailSpllited: Array<string> = thumbnailLink.split("=");
+        return thumbnailSpllited[0];
+    };
 
     const buildFileMetadata = (image: UploadedImage): FileMetadata => {
         return {
@@ -37,5 +83,5 @@ export default function DriveService() {
         return google.drive({ version: "v3", auth: client });
     };
 
-    return { buildFileMetadata, buildMedia, build };
+    return { sendImageToDrive, getUploadedImageFromDriveById, getDriveImageLinkFromThumbnailLink, build };
 }
