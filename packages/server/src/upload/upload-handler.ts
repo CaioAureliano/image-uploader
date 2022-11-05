@@ -39,9 +39,9 @@ export default function UploadHandler(client: OAuth2Client) {
             throw new Error("bad request: not found file id");
         }
 
-        const fileId: string = req.params.id;
-
-        res.send({ message: fileId });
+        const imageUrl: string = await UploadService(client).getUploadedImageLinkById(req.params.id);
+        
+        res.send({ imageUrl });
     };
 
     return { uploadImage, getImage };

@@ -8,5 +8,12 @@ export default function UploadRepository() {
         await client.disconnect();
     };
 
-    return { create };
+    const get = async (key: string): Promise<string> => {
+        const client = await Database().connection();
+        const imageLink: string = await client.get(key) as string;
+        await client.disconnect();
+        return imageLink;
+    };
+
+    return { create, get };
 }

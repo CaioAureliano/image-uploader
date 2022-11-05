@@ -31,5 +31,9 @@ export default function UploadService(client: OAuth2Client) {
         }
     };
 
-    return { uploadImageToDrive };
+    const getUploadedImageLinkById = async (fileId: string): Promise<string> => {
+        return await UploadRepository().get(fileId);
+    };
+
+    return { uploadImageToDrive, getUploadedImageLinkById };
 }
