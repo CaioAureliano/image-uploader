@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import { FileArray, UploadedFile } from "express-fileupload";
 import { OAuth2Client } from "google-auth-library";
-import FileService from "./file-service";
-import ImageService from "./image-service";
-import UploadService, { UploadedResponse } from "./upload-service";
+import FileService from "./service/file-service";
+import ImageService from "./service/image-service";
+import UploadService, { UploadedResponse } from "./service/upload-service";
 
 export default function UploadHandler(client: OAuth2Client) {
 

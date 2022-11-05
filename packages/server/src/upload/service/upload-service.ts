@@ -1,6 +1,6 @@
 import { OAuth2Client } from "google-auth-library";
 import { drive_v3 } from "googleapis";
-import UploadRepository from "./repository/upload-repository";
+import UploadRepository from "../repository/upload-repository";
 import DriveService, { ImageResponse, ImageUploaded } from "./drive-service";
 
 export interface UploadedImage {
