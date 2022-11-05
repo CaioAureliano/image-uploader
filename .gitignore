@@ -3,5 +3,7 @@ build
 
 megalinter-reports/
 
-.log
+*.log
 .env
+
+tmp
