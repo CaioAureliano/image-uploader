@@ -15,7 +15,7 @@ export interface FileMediaDrive {
     body: ReadStream
 }
 
-export interface imageUploaded {
+export interface ImageUploaded {
     id?: string | undefined | null;
     name?: string | undefined | null;
     appProperties?: { [k: string]: string } | null;
@@ -43,18 +43,12 @@ export default function DriveService() {
         return driveResponse.data;
     };
 
-    const getUploadedImageFromDriveById = async (drive: drive_v3.Drive, fileId: string): Promise<imageUploaded> => {
-        try {
-            const imageUploaded: GaxiosResponse<drive_v3.Schema$File> = await drive.files.get({
-                fileId,
-                fields: "id,name,appProperties,thumbnailLink,imageMediaMetadata",
-            });
-
-            return imageUploaded.data;
-        } catch (error) {
-            console.error(error);
-            throw new Error("not found file");
-        }
+    const getUploadedImageFromDriveById = async (drive: drive_v3.Drive, fileId: string): Promise<ImageUploaded> => {
+        const imageUploaded: GaxiosResponse<drive_v3.Schema$File> = await drive.files.get({
+            fileId,
+            fields: "id,name,appProperties,thumbnailLink,imageMediaMetadata",
+        });
+        return imageUploaded.data;
     };
 
     const getDriveImageLinkFromThumbnailLink = (thumbnailLink: string): string => {

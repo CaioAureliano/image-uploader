@@ -3,7 +3,7 @@ import { FileArray, UploadedFile } from "express-fileupload";
 import { OAuth2Client } from "google-auth-library";
 import FileService from "./file-service";
 import ImageService from "./image-service";
-import UploadService from "./upload-service";
+import UploadService, { UploadedResponse } from "./upload-service";
 
 export default function UploadHandler(client: OAuth2Client) {
 
@@ -14,23 +14,23 @@ export default function UploadHandler(client: OAuth2Client) {
             throw new Error("not found file");
         }
 
-        const imgUploaded: UploadedFile | UploadedFile[] = filesUploaded.image;
-        if (Array.isArray(imgUploaded)) {
+        const uploadedFile: UploadedFile | UploadedFile[] = filesUploaded.image;
+        if (Array.isArray(uploadedFile)) {
             throw new Error("bad request with multiple files, send only one at a time");
         }
 
-        if (!ImageService().isValidTypeImage(imgUploaded)) {
-            throw new Error("invalid file type, only image files are valid");
-        }
-
-        if (!FileService().isValidSize(imgUploaded)) {
+        if (!FileService().isValidSize(uploadedFile)) {
             throw new Error("large file size, only allowed file size less than 5MB");
         }
-        
-        const imgToSave: UploadedFile = imgUploaded as UploadedFile;
-        await UploadService(client).uploadImageToDrive(imgToSave);
 
-        res.status(201).end();
+        if (!ImageService().isValidTypeImage(uploadedFile)) {
+            throw new Error("invalid file type, only image files are valid");
+        }
+        
+        const image: UploadedFile = uploadedFile as UploadedFile;
+        const uploadedResponse: UploadedResponse = await UploadService(client).uploadImageToDrive(image);
+
+        res.status(201).send(uploadedResponse);
     };
 
     const getImage = async (req: Request, res: Response): Promise<void> => {
@@ -39,7 +39,7 @@ export default function UploadHandler(client: OAuth2Client) {
             throw new Error("bad request: not found file id");
         }
 
-        const fileId: string = req.params.id!;
+        const fileId: string = req.params.id;
 
         res.send({ message: fileId });
     };
