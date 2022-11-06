@@ -1,17 +1,18 @@
-import express from "express";
+import express, { Express } from "express";
 import fileUpload from "express-fileupload";
-import GoogleOAuth2Client from "./client";
+import errorHandler from "./app/middleware/error-handler";
+import { sessionMiddleware } from "./app/middleware/session";
+import { uncaughtErrorListener } from "./app/middleware/uncaught-error-listener";
 import AuthRouter from "./auth/auth-router";
 import UploadRouter from "./upload/upload-router";
-import errorHandler from "./app/middleware/error-handler";
-import { uncaughtErrorListener } from "./app/middleware/uncaught-error-listener";
     
-const app = express();
-const client = GoogleOAuth2Client();
+const app: Express = express();
+
+sessionMiddleware(app);
 
 app.use(fileUpload({ useTempFiles: true, tempFileDir: "tmp" }));
-app.use(AuthRouter(client));
-app.use(UploadRouter(client));
+app.use(AuthRouter());
+app.use(UploadRouter());
 app.use(errorHandler);
 
 process.on("uncaughtException", uncaughtErrorListener);

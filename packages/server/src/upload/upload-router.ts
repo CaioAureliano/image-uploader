@@ -1,13 +1,13 @@
 import { Router } from "express";
-import { OAuth2Client } from "google-auth-library";
+import { authMiddleware } from "../auth/auth-middleware";
 import UploadHandler from "./upload-handler";
 
-export default function UploadRouter(client: OAuth2Client) {
+export default function UploadRouter() {
 
     const router = Router();
 
-    router.post("/image", UploadHandler(client).uploadImage);
-    router.get("/image/:id", UploadHandler(client).getImage);
+    router.post("/image", authMiddleware, UploadHandler().uploadImage);
+    router.get("/image/:id", UploadHandler().getImage);
 
     return router;
 }

@@ -1,20 +1,19 @@
 import { Request, Response } from "express";
-import { OAuth2Client } from "google-auth-library";
 import AuthService from "./auth-service";
 
-export default function AuthHandler(client: OAuth2Client) {
+export default function AuthHandler() {
     
-    const authService = AuthService(client);
-
     const getAuthorizeUrl = (req: Request, res: Response): void => {
-        const authorizeUrl = authService.generateGoogleAuthorizeUrl();
+        const authorizeUrl = AuthService().generateGoogleAuthorizeUrl();
         res.send({ authorizeUrl });
     };
 
     const authenticateOAuth2Client = async (req: Request, res: Response): Promise<void> => {
         const { code } = req.query;
-        await authService.authenticate(code as string);
-        res.send({ message: "Authentication successful" });
+        if (!code) {
+            throw new Error("Not Found authentication code from callback");
+        }
+        res.send({ code });
     };
 
     return { getAuthorizeUrl, authenticateOAuth2Client };
