@@ -3,6 +3,7 @@ import { OAuth2Client } from "google-auth-library";
 import { drive_v3, google } from "googleapis";
 import fs, { ReadStream } from "node:fs";
 import { UploadedImage } from "./upload-service";
+import logger from "pino";
 
 export interface FileMetadata {
     name: string;
@@ -36,7 +37,7 @@ export default function DriveService() {
         });
 
         if (!driveResponse.status || driveResponse.status !== 200) {
-            console.log(driveResponse);
+            logger().info(driveResponse);
             throw new Error("error to create file");
         }
 

@@ -3,6 +3,7 @@ import { FileArray, UploadedFile } from "express-fileupload";
 import FileService from "./service/file-service";
 import ImageService from "./service/image-service";
 import UploadService, { UploadedResponse } from "./service/upload-service";
+import logger from "pino";
 
 export default function UploadHandler() {
 
@@ -31,6 +32,7 @@ export default function UploadHandler() {
 
         const uploadedResponse: UploadedResponse = await UploadService().uploadImageToDrive(image, code);
 
+        req.session.destroy(logger().error);
         res.status(201).send(uploadedResponse);
     };
 

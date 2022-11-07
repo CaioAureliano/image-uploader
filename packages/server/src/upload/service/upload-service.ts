@@ -3,6 +3,7 @@ import { drive_v3 } from "googleapis";
 import AuthService from "../../auth/auth-service";
 import UploadRepository from "../repository/upload-repository";
 import DriveService, { ImageResponse, ImageUploaded } from "./drive-service";
+import logger from "pino";
 
 export interface UploadedImage {
     name: string;
@@ -29,7 +30,7 @@ export default function UploadService() {
             await UploadRepository().create(imageResponse.id!, driveService.getDriveImageLinkFromThumbnailLink(imageUploaded.thumbnailLink!));
             return { id: imageUploaded.id!, thumbnailLink: imageUploaded.thumbnailLink! };
         } catch (error) {
-            console.error(error);
+            logger().error(error);
             throw new Error("error to upload file");
         }
     };

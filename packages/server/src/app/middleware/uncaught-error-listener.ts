@@ -1,4 +1,6 @@
+import logger from "pino";
+
 export const uncaughtErrorListener = (err: Error): void => {
-    console.error(err);
+    logger().error(err);
     process.exit(1);
 };

@@ -1,4 +1,5 @@
 import { createClient, RedisClientType, RedisDefaultModules, RedisModules, RedisFunctions, RedisScripts } from "redis";
+import logger from "pino";
 
 export default function Database() {
 
@@ -10,7 +11,7 @@ export default function Database() {
     };
 
     const handlerError = (...args: any[]): void => {
-        console.error(args);
+        logger().error(args);
         throw new Error("error to redis connection");
     };
 

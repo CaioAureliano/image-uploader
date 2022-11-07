@@ -28,6 +28,8 @@
     "express-session": "1.17.3",
     "google-auth-library": "8.6.0",
     "googleapis": "108.0.0",
+    "pino": "^8.7.0",
+    "pino-http": "^8.2.1",
     "redis": "4.4.0"
   }
 }

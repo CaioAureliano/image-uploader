@@ -4,7 +4,6 @@ import { Express } from "express";
 declare module "express-session" {
     // eslint-disable-next-line no-unused-vars
     interface SessionData {
-        [k: string]: any;
         oauth2code?: string | undefined;
     }
 }
