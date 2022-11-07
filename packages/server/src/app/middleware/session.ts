@@ -1,5 +1,6 @@
 import session from "express-session";
 import { Express } from "express";
+import config from "../config";
 
 declare module "express-session" {
     // eslint-disable-next-line no-unused-vars
@@ -10,8 +11,5 @@ declare module "express-session" {
 
 export const sessionMiddleware = (app: Express): void => {
     app.set("trust proxy", 1);
-    app.use(session({
-        secret: "s3cr3t",
-        name: "sessionId",
-    }));
+    app.use(session(config.sessionOptions));
 };
