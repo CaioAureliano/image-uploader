@@ -4,6 +4,7 @@ import FileService from "./service/file-service";
 import ImageService from "./service/image-service";
 import UploadService, { UploadedResponse } from "./service/upload-service";
 import logger from "pino";
+import HttpError from "../app/error/http-error";
 
 export default function UploadHandler() {
 
@@ -11,20 +12,20 @@ export default function UploadHandler() {
 
         const filesUploaded: FileArray = req.files!;
         if (!filesUploaded.image) {
-            throw new Error("not found file");
+            throw new HttpError(400, "not found uploaded file");
         }
 
         const uploadedFile: UploadedFile | UploadedFile[] = filesUploaded.image;
         if (Array.isArray(uploadedFile)) {
-            throw new Error("bad request with multiple files, send only one at a time");
+            throw new HttpError(400, "Bad Request: multiple files, send only one at a time");
         }
 
         if (!FileService().isValidSize(uploadedFile)) {
-            throw new Error("large file size, only allowed file size less than 5MB");
+            throw new HttpError(400, "large file size, only allowed file size less than 5MB");
         }
 
         if (!ImageService().isValidTypeImage(uploadedFile)) {
-            throw new Error("invalid file type, only image files are valid");
+            throw new HttpError(400, "invalid file type, only image files are valid");
         }
 
         const code: string = req.session.oauth2code!;        
@@ -39,10 +40,13 @@ export default function UploadHandler() {
     const getImage = async (req: Request, res: Response): Promise<void> => {
 
         if (!req.params || !req.params.id) {
-            throw new Error("bad request: not found file id");
+            throw new HttpError(400, "bad request: not found file id");
         }
 
         const imageUrl: string = await UploadService().getUploadedImageLinkById(req.params.id);
+        if (!imageUrl || imageUrl === "") {
+            throw new HttpError(404, `not found image with id: ${req.params.id}`);
+        }
         
         res.send({ imageUrl });
     };
