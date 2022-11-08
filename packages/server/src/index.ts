@@ -1,14 +1,18 @@
-import express from "express";
+import express, { Express } from "express";
+import pino from "pino-http";
 import fileUpload from "express-fileupload";
-import GoogleOAuth2Client from "./client";
-import AuthRouter from "./auth/auth-router";
-import UploadRouter from "./upload/upload-router";
+import { sessionMiddleware } from "./app/middleware/session";
+import { uncaughtErrorListener } from "./app/middleware/uncaught-error-listener";
+import { router } from "./app/router/router";
     
-const app = express();
-const client = GoogleOAuth2Client();
+const app: Express = express();
 
+sessionMiddleware(app);
+
+app.use(pino());
 app.use(fileUpload({ useTempFiles: true, tempFileDir: "tmp" }));
-app.use(AuthRouter(client));
-app.use(UploadRouter(client));
+app.use(router());
+
+process.on("uncaughtException", uncaughtErrorListener);
 
 export default app;

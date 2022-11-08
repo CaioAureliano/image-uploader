@@ -5,6 +5,14 @@ dotenv.config();
 export interface AppConfiguration {
     port: number;
     googleOAuth2ClientOptions: OAuth2ClientOptions;
+    sessionOptions: SessionConfiguration;
+}
+
+export interface SessionConfiguration {
+    name: string | undefined;
+    secret: string | string[];
+    resave?: boolean | undefined;
+    saveUninitialized?: boolean | undefined;
 }
 
 const config: AppConfiguration = {
@@ -14,6 +22,12 @@ const config: AppConfiguration = {
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
         redirectUri: process.env.GOOGLE_REDIRECT_ENDPOINT,
     },
+    sessionOptions: {
+        name: process.env.SESSION_NAME,
+        secret: process.env.SESSION_SECRET!,
+        resave: false,
+        saveUninitialized: true
+    }
 };
 
 export default config;

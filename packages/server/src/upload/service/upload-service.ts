@@ -1,7 +1,9 @@
 import { OAuth2Client } from "google-auth-library";
 import { drive_v3 } from "googleapis";
-import UploadRepository from "./repository/upload-repository";
+import AuthService from "../../auth/auth-service";
+import UploadRepository from "../repository/upload-repository";
 import DriveService, { ImageResponse, ImageUploaded } from "./drive-service";
+import logger from "pino";
 
 export interface UploadedImage {
     name: string;
@@ -14,11 +16,13 @@ export interface UploadedResponse {
     thumbnailLink: string;
 }
 
-export default function UploadService(client: OAuth2Client) {
+export default function UploadService() {
 
-    const uploadImageToDrive = async (image: UploadedImage): Promise<UploadedResponse> => {
+    const uploadImageToDrive = async (image: UploadedImage, oauth2code: string): Promise<UploadedResponse> => {
+        const oauth2Client: OAuth2Client = await AuthService().authenticate(oauth2code);
+
         const driveService = DriveService();
-        const drive: drive_v3.Drive = driveService.build(client);
+        const drive: drive_v3.Drive = driveService.build(oauth2Client);
 
         try {
             const imageResponse: ImageResponse = await driveService.sendImageToDrive(drive, image);
@@ -26,7 +30,7 @@ export default function UploadService(client: OAuth2Client) {
             await UploadRepository().create(imageResponse.id!, driveService.getDriveImageLinkFromThumbnailLink(imageUploaded.thumbnailLink!));
             return { id: imageUploaded.id!, thumbnailLink: imageUploaded.thumbnailLink! };
         } catch (error) {
-            console.error(error);
+            logger().error(error);
             throw new Error("error to upload file");
         }
     };
