@@ -1,10 +1,11 @@
 import { createClient, RedisClientType, RedisDefaultModules, RedisModules, RedisFunctions, RedisScripts } from "redis";
 import logger from "pino";
+import config from "../config/index";
 
 export default function Database() {
 
     const connection = async (): Promise<RedisClientType<RedisDefaultModules & RedisModules, RedisFunctions, RedisScripts>>  => {
-        const client = createClient();
+        const client = createClient(config.databaseOptions);
         client.on("error", handlerError);
         await client.connect();
         return client;

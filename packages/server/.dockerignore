@@ -1,0 +1,11 @@
+node_modules
+tmp
+
+.eslintrc.json
+
+tsconfig.json
+
+.env.example
+
+docker-compose.yml
+Dockerfile

@@ -3,6 +3,7 @@ import HttpError from "../error/http-error";
 import logger from "pino";
 
 export default function errorHandler(err: unknown, req: Request, res: Response, next: NextFunction): void {
+    logger().error("middleware error");
     logger().error(err);
 
     if (err instanceof HttpError) {
