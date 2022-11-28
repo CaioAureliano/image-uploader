@@ -6,6 +6,7 @@ export interface AppConfiguration {
     port: number;
     googleOAuth2ClientOptions: OAuth2ClientOptions;
     sessionOptions: SessionConfiguration;
+    databaseOptions: { url: string | undefined };
 }
 
 export interface SessionConfiguration {
@@ -27,7 +28,10 @@ const config: AppConfiguration = {
         secret: process.env.SESSION_SECRET!,
         resave: false,
         saveUninitialized: true
-    }
+    },
+    databaseOptions: {
+        url: process.env.REDIS_URL,
+    },
 };
 
 export default config;

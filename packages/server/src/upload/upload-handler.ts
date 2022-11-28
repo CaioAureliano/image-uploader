@@ -33,7 +33,7 @@ export default function UploadHandler() {
 
         const uploadedResponse: UploadedResponse = await UploadService().uploadImageToDrive(image, code);
 
-        req.session.destroy(logger().error);
+        req.session.destroy((err) => logger().error(err));
         res.status(201).send(uploadedResponse);
     };
 
