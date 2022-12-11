@@ -29,7 +29,7 @@ export const UploadRouter = (router: Router): void => {
      *                format: binary
      *    responses:
      *      201:
-     *        description: id from image uploaded and created on google drive with link to thumbnail
+     *        description: id from image uploaded and created on google drive and link to thumbnail
      *        content:
      *          application/json:
      *            schema:
@@ -41,6 +41,21 @@ export const UploadRouter = (router: Router): void => {
      *                thumbnailLink:
      *                  description: thumbnail link from google drive uploaded image
      *                  type: string
+     *      400:
+     *        description: bad request
+     *        content:
+     *          application/json:
+     *            schema:
+     *              type: object
+     *              properties:
+     *                message:
+     *                  description: error message
+     *                  type: string
+     *                error:
+     *                  description: error trace
+     *                  type: string
+     *      500:
+     *        description: unknow error
      */
     router.post("/image", authMiddleware, UploadHandler().uploadImage);
 
@@ -72,6 +87,8 @@ export const UploadRouter = (router: Router): void => {
      *                              type: string
      *      404:
      *          description: image can not be found(invalid ID)
+     *      500:
+     *          description: unknow error
      * 
      */
     router.get("/image/:id", UploadHandler().getImage);
