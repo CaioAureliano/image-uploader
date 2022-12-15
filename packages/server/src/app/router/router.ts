@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { AuthRouter } from "../../auth/auth-router";
-import { UploadRouter } from "../../upload/upload-router";
+import { AuthRouter } from "../../auth/routes/auth-router";
+import { UploadRouter } from "../../upload/routes/upload-router";
 import errorHandler from "../middleware/error-handler";
 
 export const router = (): Router => {
