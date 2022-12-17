@@ -5,8 +5,11 @@ import errorHandler from "../middleware/error-handler";
 
 export const router = (): Router => {
     const router: Router = Router();
+    
     AuthRouter(router);
     UploadRouter(router);
+
     router.use(errorHandler);
+
     return router;
 };
