@@ -10,4 +10,4 @@ COPY ./build .env .
 
 EXPOSE ${PORT}
 
-CMD ["node", "./src/server"]
+CMD ["node", "./src/index"]
