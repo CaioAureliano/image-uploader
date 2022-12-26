@@ -1,12 +1,12 @@
 import app from "./app";
 import config from "./config";
-import logger from "pino";
 import { Server } from "http";
+import { logger } from "./logger/logger";
 
 export const start = (): Promise<Server> => {
     return new Promise((resolve, reject) => {
         try {
-            const connection = app.listen(config.port, () => logger().info("server started"));
+            const connection = app.listen(config.port, () => logger.info("Server started"));
             resolve(connection);
         } catch (error) {
             reject(error);

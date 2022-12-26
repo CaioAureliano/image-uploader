@@ -2,8 +2,8 @@ import { GaxiosResponse } from "gaxios";
 import { OAuth2Client } from "google-auth-library";
 import { drive_v3, google } from "googleapis";
 import fs, { ReadStream } from "node:fs";
+import { logger } from "../../app/logger/logger";
 import { UploadedImage } from "./upload-service";
-import logger from "pino";
 
 export interface FileMetadata {
     name: string;
@@ -37,7 +37,7 @@ export default function DriveService() {
         });
 
         if (!driveResponse.status || driveResponse.status !== 200) {
-            logger().info(driveResponse);
+            logger.info(driveResponse);
             throw new Error("error to create file");
         }
 
