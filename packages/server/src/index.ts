@@ -1,3 +1,3 @@
-import { init } from "./server";
+import { start } from "./app/server";
 
-init();
+start();

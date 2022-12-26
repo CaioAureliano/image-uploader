@@ -1,9 +1,9 @@
-import app from "./app/app";
-import config from "./app/config";
+import app from "./app";
+import config from "./config";
 import logger from "pino";
 import { Server } from "http";
 
-export const init = (): Promise<Server> => {
+export const start = (): Promise<Server> => {
     return new Promise((resolve, reject) => {
         try {
             const connection = app.listen(config.port, () => logger().info("server started"));
