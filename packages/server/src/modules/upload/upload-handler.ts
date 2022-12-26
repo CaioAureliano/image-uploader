@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
 import { FileArray, UploadedFile } from "express-fileupload";
+import HttpError from "../../app/error/http-error";
+import { logger } from "../../app/logger/logger";
 import FileService from "./service/file-service";
 import ImageService from "./service/image-service";
 import UploadService, { UploadedResponse } from "./service/upload-service";
-import HttpError from "../app/error/http-error";
-import { logger } from "../app/logger/logger";
 
 export default function UploadHandler() {
 

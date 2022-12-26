@@ -2,7 +2,7 @@ import { GaxiosResponse } from "gaxios";
 import { OAuth2Client } from "google-auth-library";
 import { drive_v3, google } from "googleapis";
 import fs, { ReadStream } from "node:fs";
-import { logger } from "../../app/logger/logger";
+import { logger } from "../../../app/logger/logger";
 import { UploadedImage } from "./upload-service";
 
 export interface FileMetadata {

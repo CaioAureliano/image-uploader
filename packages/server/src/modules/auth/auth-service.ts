@@ -1,6 +1,6 @@
 import { OAuth2Client } from "google-auth-library";
 import { GetTokenResponse } from "google-auth-library/build/src/auth/oauth2client";
-import { logger } from "../app/logger/logger";
+import { logger } from "../../app/logger/logger";
 import GoogleOAuth2Client from "./client";
 
 export default function AuthService() {

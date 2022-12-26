@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import HttpError from "../app/error/http-error";
+import HttpError from "../../app/error/http-error";
 
 export const authMiddleware = (req: Request, res: Response, next: NextFunction): void => {
     const code: string | undefined = req.header("X-OAuth2-Code");
