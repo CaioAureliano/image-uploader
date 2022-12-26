@@ -17,6 +17,7 @@ export const start = (): Promise<Server> => {
 export const stop = (connection: Server): Promise<void> => {
     return new Promise((resolve, reject) => {
         try {
+            logger.info("Server stopping...");
             connection.close(() => resolve());
         } catch (error) {
             reject(error);
