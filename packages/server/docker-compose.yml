@@ -2,10 +2,13 @@ version: "3.9"
 services:
     img-uploder-api:
       build: .
+      depends_on:
+        - redis
       ports:
         - ${PORT}:${PORT}
       environment:
         REDIS_URL: "redis://redis:6379"
+
     redis:
       image: "redis:alpine"
       ports:
