@@ -2,6 +2,6 @@ version: "3.9"
 services:
   cache:
     image: "redis:alpine"
-    container_name: "redis-for-test"
+    container_name: "redis-integration-test"
     ports:
       - "6379:6379"

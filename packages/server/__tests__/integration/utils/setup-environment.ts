@@ -1,12 +1,17 @@
-import path from "node:path";
-import compose from "docker-compose";
-import { start } from "../../../src/app/server";
+import { exec } from "node:child_process";
 import { Server } from "http";
+import { start, stop } from "../../../src/app/server";
 
-export const setup = async (): Promise<Server | void> => {
-    compose.upOne("cache", { cwd: path.join(__dirname), log: true })
-        .then(() => console.log("redis up"))
-        .catch(console.error);
+export const setup = async (): Promise<Server> => {
+    try {
+        exec("docker compose up --build -d cache");
+        return await start();
+    } catch (error: any) {
+        throw Error(error);
+    }
+};
 
-    return await start().catch(console.error);
+export const destroy = async (api: Server): Promise<void> => {
+    exec("docker compose down");
+    await stop(api);
 };
