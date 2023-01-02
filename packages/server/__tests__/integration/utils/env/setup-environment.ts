@@ -1,6 +1,6 @@
 import { exec } from "node:child_process";
 import { Server } from "http";
-import { start, stop } from "../../../src/app/server";
+import { start, stop } from "../../../../src/app/server";
 
 export const setup = async (): Promise<Server> => {
     try {

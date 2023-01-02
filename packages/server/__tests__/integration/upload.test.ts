@@ -2,8 +2,8 @@ import { afterAll, beforeAll, describe, expect, test } from "@jest/globals";
 import { Server } from "http";
 import path from "node:path";
 import request from "supertest";
+import { destroy, setup } from "./utils/env/setup-environment";
 import { getFileGoogleApiRequestMock, setupMockRequests, tokenGoogleApiRequestMock, uploadGoogleApiRequestMock } from "./utils/mock/http/googleapi.mock";
-import { destroy, setup } from "./utils/setup-environment";
 
 describe("Upload [Integration]", () => {
     describe("/image", () => {
