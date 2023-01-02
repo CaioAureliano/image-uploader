@@ -13,5 +13,5 @@ export const setup = async (): Promise<Server> => {
 
 export const destroy = async (api: Server): Promise<void> => {
     exec("docker compose down");
-    await stop(api);
+    await stop(api).catch((error) => console.log("error to try destroy server ", JSON.stringify(error)));
 };
