@@ -8,7 +8,6 @@ export default function AuthService() {
     const generateGoogleAuthorizeUrl = (): string => {
         const client: OAuth2Client = GoogleOAuth2Client();
         return client.generateAuthUrl({
-            access_type: "offline",
             scope: [
                 "https://www.googleapis.com/auth/drive.appdata",
             ],
