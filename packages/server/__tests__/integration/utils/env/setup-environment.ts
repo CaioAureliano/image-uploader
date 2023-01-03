@@ -1,12 +1,12 @@
-import { exec } from "node:child_process";
+import { execSync } from "node:child_process";
 import { Server } from "http";
 import { start, stop } from "../../../../src/app/server";
 
+const DOCKER_COMPOSE_FILE = __dirname + "/docker-compose.test.yml";
+
 export const setup = async (): Promise<Server> => {
     try {
-        const dockerComposeFile = __dirname + "/docker-compose.test.yml";
-        
-        exec(`docker compose -f ${dockerComposeFile} up --build -d cache`);
+        execSync(`docker compose -f ${DOCKER_COMPOSE_FILE} up --build -d cache`);
         return await start();
     } catch (error: any) {
         throw Error(error);
@@ -14,6 +14,6 @@ export const setup = async (): Promise<Server> => {
 };
 
 export const destroy = async (api: Server): Promise<void> => {
-    exec("docker compose down");
+    execSync(`docker compose -f ${DOCKER_COMPOSE_FILE} down`);
     await stop(api).catch((error) => console.log("error to try destroy server ", JSON.stringify(error)));
 };
