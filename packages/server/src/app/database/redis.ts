@@ -12,7 +12,7 @@ export default function Database() {
     };
 
     const handlerError = (...args: any[]): void => {
-        logger.info(args);
+        logger.error(args);
         throw new Error("error to redis connection");
     };
 
