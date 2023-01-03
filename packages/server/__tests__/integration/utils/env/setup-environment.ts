@@ -4,7 +4,9 @@ import { start, stop } from "../../../../src/app/server";
 
 export const setup = async (): Promise<Server> => {
     try {
-        exec("docker compose up --build -d cache");
+        const dockerComposeFile = __dirname + "/docker-compose.test.yml";
+        
+        exec(`docker compose -f ${dockerComposeFile} up --build -d cache`);
         return await start();
     } catch (error: any) {
         throw Error(error);
