@@ -1,4 +1,5 @@
-import Database from "../../app/database/redis";
+import Database from "../../../app/database/redis";
+
 
 export default function UploadRepository() {
 

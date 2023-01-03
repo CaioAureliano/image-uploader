@@ -1,14 +1,13 @@
 import { OAuth2Client } from "google-auth-library";
 import { GetTokenResponse } from "google-auth-library/build/src/auth/oauth2client";
+import { logger } from "../../app/logger/logger";
 import GoogleOAuth2Client from "./client";
-import logger from "pino";
 
 export default function AuthService() {
     
     const generateGoogleAuthorizeUrl = (): string => {
         const client: OAuth2Client = GoogleOAuth2Client();
         return client.generateAuthUrl({
-            access_type: "offline",
             scope: [
                 "https://www.googleapis.com/auth/drive.appdata",
             ],
@@ -22,7 +21,7 @@ export default function AuthService() {
             oauth2Client.setCredentials(tokenResponse.tokens);
             return oauth2Client;
         } catch (error) {
-            logger().error(error);
+            logger.error(error);
             throw new Error("error to authenticate");
         }
     };

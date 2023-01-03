@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import HttpError from "../app/error/http-error";
+import HttpError from "../../app/error/http-error";
 import AuthService from "./auth-service";
 
 export default function AuthHandler() {
