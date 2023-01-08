@@ -1,6 +1,7 @@
 import { Router } from "express";
-import { authMiddleware } from "../../auth/auth-middleware";
-import UploadHandler from "../upload-handler";
+import { authMiddleware } from "../auth/auth-middleware";
+import { UploadController } from "./upload.controller";
+
 
 /**
  * @swagger
@@ -9,7 +10,7 @@ import UploadHandler from "../upload-handler";
  *      description: upload image and get uploaded image
  * 
  */
-export const UploadRouter = (router: Router): void => {
+const resolve = (router: Router): void => {
     /**
      * @swagger
      * /image:
@@ -57,7 +58,7 @@ export const UploadRouter = (router: Router): void => {
      *      500:
      *        description: unknow error
      */
-    router.post("/image", authMiddleware, UploadHandler().uploadImage);
+    router.post("/image", authMiddleware, UploadController.uploadImage);
 
     /**
      * @swagger
@@ -91,5 +92,9 @@ export const UploadRouter = (router: Router): void => {
      *          description: unknow error
      * 
      */
-    router.get("/image/:id", UploadHandler().getImage);
+    router.get("/image/:id", UploadController.getImage);
+};
+
+export const UploadRouter = {
+    resolve,
 };
