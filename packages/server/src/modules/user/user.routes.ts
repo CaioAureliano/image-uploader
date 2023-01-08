@@ -1,5 +1,5 @@
 import { Router } from "express";
-import AuthHandler from "../auth-handler";
+import { UserController } from "./user.controller";
 
 /**
  * @swagger
@@ -7,7 +7,7 @@ import AuthHandler from "../auth-handler";
  *     name: Auth
  *     description: authenticate and authorize Google account with Google API
  */
-export const AuthRouter = (router: Router): void => {
+const resolve = (router: Router): void => {
     /**
      * @swagger
      *   /authorize:
@@ -29,7 +29,7 @@ export const AuthRouter = (router: Router): void => {
      *                      description: OAuth2 Google API url to login
      *                      type: string
      */
-    router.get("/authorize", AuthHandler().getAuthorizeUrl);
+    router.get("/authorize", UserController.getAuthorizeUrl);
 
     /**
      * @swagger
@@ -54,5 +54,9 @@ export const AuthRouter = (router: Router): void => {
      *         400:
      *             description: not found authentication code
      */
-    router.get("/authenticate", AuthHandler().authenticateOAuth2Client);
+    router.get("/authenticate", UserController.authenticateOAuth2Client);
+};
+
+export const UserRouter = {
+    resolve,
 };
