@@ -2,7 +2,7 @@ import * as dotenv from "dotenv";
 import { OAuth2ClientOptions } from "google-auth-library";
 dotenv.config();
 
-export interface AppConfiguration {
+export interface ApplicationConfiguration {
     port: number;
     googleOAuth2ClientOptions: OAuth2ClientOptions;
     sessionOptions: SessionConfiguration;
@@ -16,7 +16,7 @@ export interface SessionConfiguration {
     saveUninitialized?: boolean | undefined;
 }
 
-const config: AppConfiguration = {
+const config: ApplicationConfiguration = {
     port: Number(process.env.PORT),
     googleOAuth2ClientOptions: {
         clientId: process.env.GOOGLE_CLIENT_ID,
