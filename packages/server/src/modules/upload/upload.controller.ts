@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { FileArray, UploadedFile } from "express-fileupload";
-import HttpError from "../../app/error/http-error";
-import { logger } from "../../app/logger/logger";
+import HttpError from "../../libs/error/http.error";
+import { logger } from "../../libs/logger/logger";
 import { FileService } from "./service/file.service";
 import { ImageService } from "./service/image.service";
 import { UploadedResponse, UploadService } from "./service/upload.service";

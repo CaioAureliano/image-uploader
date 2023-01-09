@@ -1,6 +1,6 @@
 import session from "express-session";
 import { Express } from "express";
-import config from "../config";
+import config from "../../config/environment.config";
 
 declare module "express-session" {
     // eslint-disable-next-line no-unused-vars

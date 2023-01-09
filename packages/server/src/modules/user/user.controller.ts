@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import HttpError from "../../app/error/http-error";
+import HttpError from "../../libs/error/http.error";
 import { UserService } from "./service/user.service";
 
 const getAuthorizeUrl = (req: Request, res: Response): void => {

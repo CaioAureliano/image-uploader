@@ -1,4 +1,4 @@
-import Database from "../../../app/database/redis";
+import Database from "../../../libs/database/redis";
 
 const create = async (key: string, value: string): Promise<void> => {
     const client = await Database().connection();

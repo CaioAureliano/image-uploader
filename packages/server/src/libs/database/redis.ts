@@ -1,5 +1,5 @@
 import { createClient, RedisClientType, RedisDefaultModules, RedisModules, RedisFunctions, RedisScripts } from "redis";
-import config from "../config/index";
+import config from "../../config/environment.config";
 import { logger } from "../logger/logger";
 
 export default function Database() {
