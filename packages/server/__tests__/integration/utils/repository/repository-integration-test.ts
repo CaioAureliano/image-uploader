@@ -1,4 +1,4 @@
-import cache from "../../../../src/app/database/redis";
+import cache from "../../../../src/libs/database/redis";
 
 const cleanDatabase = async (): Promise<void> => {
     const client = await cache().connection();
