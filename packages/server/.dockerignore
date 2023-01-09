@@ -9,3 +9,9 @@ tsconfig.json
 
 docker-compose.yml
 Dockerfile
+
+__tests__
+
+jest.config.ts
+
+README.md

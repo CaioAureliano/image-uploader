@@ -1,6 +1,6 @@
 import { execSync } from "node:child_process";
 import { Server } from "http";
-import { start, stop } from "../../../../src/libs/server";
+import { start, stop } from "../../../../src/libs/application/server";
 
 const DOCKER_COMPOSE_FILE = __dirname + "/docker-compose.test.yml";
 

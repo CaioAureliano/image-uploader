@@ -1,7 +1,8 @@
-import app from "./app";
-import config from "../config/environment.config";
+
+import config from "../../config/environment.config";
 import { Server } from "http";
-import { logger } from "./logger/logger";
+import { logger } from "../logger/logger";
+import app from "./application.base";
 
 export const start = (): Promise<Server> => {
     return new Promise((resolve, reject) => {
